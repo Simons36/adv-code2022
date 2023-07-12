@@ -3,6 +3,7 @@ pub mod util;
 
 use days::day1;
 use days::day2;
+use days::day3;
 
 fn main() {
     println!("Please select the day to run: ");
@@ -16,6 +17,7 @@ fn main() {
     let res = match day {
         1 => day1::function(),
         2 => day2::function(),
+        3 => day3::function(),
         _ => Err("Provided day is invalid or not implemented".to_string())
     };
 

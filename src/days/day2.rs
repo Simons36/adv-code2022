@@ -41,7 +41,9 @@ pub fn function () -> Result<[String; 2], String>{
         let opponent_play = play.next().unwrap();
         let expected_result = play.next().unwrap();
 
-        score2 += check_winner(opponent_play, get_expected_play(opponent_play, expected_result).as_str());
+        let user_play = get_expected_play(opponent_play, expected_result);
+
+        score2 += check_winner(opponent_play, user_play);
     }
 
     return Ok([score1.to_string(), score2.to_string()]);
@@ -77,41 +79,41 @@ fn check_winner(opponent_play : &str, user_play : &str) -> i32{
     return 6 + add_points;
 }
 
-fn get_expected_play(opponent_play : &str, expected_result : &str) -> String{
+fn get_expected_play<'a>(opponent_play : &'a str, expected_result : &'a str) -> &'a str{
     if opponent_play.eq(ROCK_OPP){
         if expected_result.eq(WIN_USER){
-            return PAPER_USER.to_string();
+            return PAPER_USER;
         }
 
         if expected_result.eq(DRAW_USER){
-            return  ROCK_USER.to_string();
+            return  ROCK_USER;
         }
 
-        return SCISSORS_USER.to_string();
+        return SCISSORS_USER;
     }
 
     if opponent_play.eq(PAPER_OPP){
         if expected_result.eq(WIN_USER){
-            return SCISSORS_USER.to_string();
+            return SCISSORS_USER;
         }
 
         if expected_result.eq(DRAW_USER){
-            return PAPER_USER.to_string();
+            return PAPER_USER;
         }
 
 
-        return ROCK_USER.to_string();
+        return ROCK_USER;
     }
 
     //opponent is scissors
 
     if expected_result.eq(WIN_USER){
-        return ROCK_USER.to_string();
+        return ROCK_USER;
     }
 
     if expected_result.eq(DRAW_USER){
-        return SCISSORS_USER.to_string();
+        return SCISSORS_USER;
     }
 
-    return PAPER_USER.to_string();
+    return PAPER_USER;
 }
