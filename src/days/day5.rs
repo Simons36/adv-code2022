@@ -25,7 +25,7 @@ pub fn function() -> Result<[String; 2], String>{
         vec_crates.push(Vec::new());
     }
 
-    for str in vect_crates_raw{
+    for str in vect_crates_raw{ //process input of crates
         let str_chars = str.chars();
         let mut i = 1;
         for ch in str_chars{
@@ -38,6 +38,8 @@ pub fn function() -> Result<[String; 2], String>{
     }
 
     vect_iter.next();
+    let mut vect_iter2 =  vect_iter.clone();
+    let mut vec_crates2 = vec_crates.clone();
 
     for move_ in vect_iter{
         let res = sscanf!(move_, "move {} from {} to {}", usize, usize, usize).unwrap();
@@ -66,6 +68,39 @@ pub fn function() -> Result<[String; 2], String>{
         }
     }
 
+    //part 2
 
-    Ok([str_final.to_string(), "not implemented".to_string()])
+    for move_ in vect_iter2{
+        let res = sscanf!(move_, "move {} from {} to {}", usize, usize, usize).unwrap();
+
+        let amount = res.0;
+        let from = res.1;
+        let to = res.2;
+
+        let mut new_vec_from = vec_crates2[from - 1].clone();
+        let mut new_vec_to = vec_crates2[to - 1].clone();
+
+        let mut crates_to_transfer : Vec<char> = Vec::new();
+
+        for _ in 0..amount{
+            crates_to_transfer.push(new_vec_from.remove(0));
+        }
+
+        for elem in crates_to_transfer.iter().rev(){
+            new_vec_to.insert(0, *elem);
+        }
+
+        vec_crates2[from - 1] = new_vec_from;
+        vec_crates2[to - 1] = new_vec_to;
+
+    }
+
+    let mut str_final2 = String::new();
+    for vec in vec_crates2{
+        if vec.len() != 0{
+            str_final2.insert(str_final2.len(), *vec.get(0).unwrap());
+        }
+    }
+
+    Ok([str_final.to_string(), str_final2.to_string()])
 }
