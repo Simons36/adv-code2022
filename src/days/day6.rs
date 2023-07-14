@@ -3,28 +3,14 @@ use crate::util::read_lines;
 pub fn function() -> Result<[String; 2], String>{
     let str_input = read_lines("input/input6.txt");
 
-    let mut str_4_ch = String::new();
+    
 
-    let mut marker = 0;
+    let marker1 = get_marker_for_x_distinct_chars(str_input.get(0).unwrap(), 4); //part 1
+    let marker2 = get_marker_for_x_distinct_chars(str_input.get(0).unwrap(), 14); //part 2
 
-    for ch in str_input.get(0).unwrap().chars(){
-        str_4_ch.insert(str_4_ch.len(), ch);
-        marker += 1;
-        if str_4_ch.len() > 4{
-            str_4_ch.remove(0);
-        }
+    
 
-        if str_4_ch.len() == 4{
-            if is_string_chars_unique(&str_4_ch){
-                break;
-            }
-        }
-
-    }
-
-    println!("{}", marker);
-
-    Ok(["not implemented".to_string(), "not implemented".to_string()])
+    Ok([marker1.to_string(), marker2.to_string()])
 }
 
 fn is_string_chars_unique(str : &String) -> bool{
@@ -42,4 +28,26 @@ fn is_string_chars_unique(str : &String) -> bool{
     }
 
     return true;
+}
+
+fn get_marker_for_x_distinct_chars(str : &String, nr_chars : usize) -> u32{
+    let mut marker = 0;
+
+    let mut str_4_ch = String::new();
+
+    for ch in str.chars(){
+        str_4_ch.insert(str_4_ch.len(), ch);
+        marker += 1;
+        if str_4_ch.len() > nr_chars{
+            str_4_ch.remove(0);
+        }
+
+        if str_4_ch.len() == nr_chars{
+            if is_string_chars_unique(&str_4_ch){
+                break;
+            }
+        }
+    }
+
+    marker
 }
