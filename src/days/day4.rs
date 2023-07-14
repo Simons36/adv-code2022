@@ -7,6 +7,7 @@ pub fn function() -> Result<[String; 2], String>{
     let vect = &read_lines("input/input4.txt");
 
     let mut result = 0;
+    let mut result2 = 0;
 
     for str in vect{
         let mut str_split = str.split(',');
@@ -30,7 +31,21 @@ pub fn function() -> Result<[String; 2], String>{
                 result += 1;
             }
         }
+
+        //part 2
+
+        let end_2_after_1 = range2[1] >= range1[0]; //if end of 2 is "after" 1
+
+        if end_2_after_1{
+            if range2[0] <= range1[1]{
+                result2 += 1;
+            }
+        }else{
+            if range1[0] <= range2[1]{
+                result2 += 1;
+            }
+        }
     }
 
-    Ok([result.to_string(),"not implemented yet".to_string()])
+    Ok([result.to_string(),result2.to_string()])
 }
